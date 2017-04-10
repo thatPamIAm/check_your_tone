@@ -4,6 +4,7 @@
 
 ### Installation
 
-1. Clone down this repo
-2. Run `npm install`
-3. Push to a different remote location on your own github account
+1. Fork this repo
+2. Clone down repo
+3. Run `npm install`
+4. Add your front end code to the `app` directory. 
