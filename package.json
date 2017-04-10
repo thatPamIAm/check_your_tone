@@ -12,16 +12,24 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.16.0",
+    "buffer-from": "^0.1.1",
     "express": "^4.14.0",
     "express-cors": "0.0.3",
+    "extend": "^3.0.0",
     "nodemon": "^1.11.0",
+    "object.pick": "^1.2.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
     "react-router": "^3.0.1",
     "react-router-redux": "^4.0.7",
     "redux": "^3.6.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "request": "^2.81.0",
+    "stream": "0.0.2",
+    "string": "^3.3.3",
+    "util": "^0.10.3",
+    "vcap_services": "^0.3.2"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
