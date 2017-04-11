@@ -8,7 +8,7 @@ class Root extends Component {
 
   render() {
     return (
-      <div>Hello World</div>
+      <div>Enter your text analysis here!!</div>
     )
   }
 }
