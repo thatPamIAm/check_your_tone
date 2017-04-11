@@ -61,7 +61,7 @@ ToneAnalyzerV3.URL = 'https://gateway.watsonplatform.net/tone-analyzer/api';
  * @return upon success, the callback function is called with an object
  * containing the different tones (emotion, writing and social) analyzed.
  *
- * @see the API docs for a the full documentation.
+ * @s ee the API docs for a the full documentation.
  *
  */
 ToneAnalyzerV3.prototype.tone = function(params, callback) {
