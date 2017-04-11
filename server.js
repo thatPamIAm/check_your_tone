@@ -4,6 +4,8 @@ const cors = require('express-cors');
 const bodyParser = require('body-parser')
 const port = (process.env.PORT || 3000);
 const app = express();
+const request = require('request');
+// var ToneAnalyzerV3 = require('./src/tone-analyzer');
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,12 +35,30 @@ app.get('/', function (req, res) { res.sendFile(path.join(__dirname, './index.ht
 
 app.listen(port);
 
-//app.post to node server/heroku\
+app.post('/post', function(req, res){
+  var query = req.body.text
+
+  request(query, function(error, response, body) {
+    if(!error){
+      var hi = 'hello'
+      var test = 'testing this shhhiiiiiitt'
+
+      var body = {
+        response_type: "in_channel",
+        "attachments" : [
+          {
+            hi + test
+          }
+        ]
+      };
+      res.send(body);
+    }
+  })
+});
 //get reqest to watson api
 //post json object that is returned
 //with a response object that posts in channel of slack
 
-// var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 //
 // var tone_analyzer = new ToneAnalyzerV3({
 //   username: 'fb839465-02ce-4473-9d1e-e66acdc3b871',
