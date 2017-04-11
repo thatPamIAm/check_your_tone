@@ -39,17 +39,12 @@ app.post('/post', function(req, res){
   var query = req.body.text
 
   request(query, function(error, response, body) {
-    if(!error){
-      var hi = 'hello'
+    if(!error && response.statusCode == 200){
       var test = 'testing this shhhiiiiiitt'
 
       var body = {
         response_type: "in_channel",
-        "attachments" : [
-          {
-            hi + test
-          }
-        ]
+        text: query
       };
       res.send(body);
     }
