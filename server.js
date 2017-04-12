@@ -34,37 +34,39 @@ app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, '/../index
 app.listen(port);
 
 app.post('/post', function(req, res){
-  var newObject = {
-    query: req.body.text
-  }
-  console.log(query)
+  var tone_analyzer = watson.tone_analyzer({
+    username: process.env._USERNAME,
+    password: process.env._PASSWORD,
+    version: 'v3',
+    version_date: '2016-05-19 '
+  });
 
-  request(newObject, function(error, response, body) {
-    if(!error){
-      var test = 'testing this shhhiiiiiitt'
-
-      var body = {
-        response_type: "in_channel",
-        text: query
-      };
-      res.send(body);
-    }
-  })
+  tone_analyzer.tone({ text: 'Greetings from Watson Developer Cloud!' },
+  function(err, tone) {
+    if (err)
+    console.log(err);
+    else
+    console.log(JSON.stringify(tone, null, 2));
+  });
 });
 
-// var tone_analyzer = watson.tone_analyzer({
-//   username: '{username}',
-//   password: '{password}',
-//   version: 'v3',
-//   version_date: '2016-05-19 '
-// });
-//
-// tone_analyzer.tone({ text: 'Greetings from Watson Developer Cloud!' },
-//   function(err, tone) {
-//     if (err)
-//       console.log(err);
-//     else
-//       console.log(JSON.stringify(tone, null, 2));
-// });
+
 
 console.log(`Listening at http://localhost:${port}`);
+
+// var parsed_url = url.format({
+//   pathname:'https://gateway.watsonplatform.net/tone-analyzer/api',
+//
+// })
+//
+// request(parsed_url, function(error, response, body) {
+//   if(!error){
+//     var test = 'testing this shhhiiiiiitt'
+//
+//     var body = {
+//       response_type: "in_channel",
+//       text: query
+//     };
+//     res.send(body);
+//   }
+// })
