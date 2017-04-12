@@ -28,10 +28,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(express.static('app'));
 
 app.get('/', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
-// app.get('/', function (req, res) { res.send('It works!') });
-
-// app.use('/api', router);
-// app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, '/../index.html')) });
+app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, '/../index.html')) });
 
 app.listen(port);
 
@@ -54,12 +51,7 @@ app.post('/post', function(req, res){
 //post json object that is returned
 //with a response object that posts in channel of slack
 
-//
-// var tone_analyzer = new ToneAnalyzerV3({
-//   username: 'fb839465-02ce-4473-9d1e-e66acdc3b871',
-//   password: 'g7jdAQ0qBqDG',
-//   version_date: '2016-05-19'
-// });
+
 //
 // tone_analyzer.tone({ text: 'Greetings from Watson Developer Cloud!' },
 //   function(err, tone) {
