@@ -8,7 +8,7 @@ const request = require('request');
 var watson = require('watson-developer-cloud');
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true })); //should this be false???
 app.use(bodyParser.json());
 
 if (process.env.NODE_ENV !== 'production') {
@@ -33,6 +33,7 @@ app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, '/../index
 app.listen(port);
 
 app.post('/post', function(req, res){
+  console.log('post is working')
   var text = req.body.text;
 
   var tone_analyzer = watson.tone_analyzer({
@@ -49,6 +50,7 @@ app.post('/post', function(req, res){
     else
     console.log(JSON.stringify(tone, null, 2));
   });
+  // res.send(body)
 });
 
 // app.post('/post', function(req, res){
