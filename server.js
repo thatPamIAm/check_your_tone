@@ -55,7 +55,6 @@ app.post('/post', function(req, res){
   var payload = {
     text: text
   }
-})
 
   request(payload, function(error, response, body) {
     if(!error && response.code === 200){
@@ -69,6 +68,5 @@ app.post('/post', function(req, res){
     }
   })
 });
-
 
 console.log(`Listening at http://localhost:${port}`);
