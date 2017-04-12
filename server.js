@@ -55,7 +55,6 @@ app.post('/post', function(req, res){
   //method
   request(payload, function(error, response, body) {
     if(!error && response.code === 200){
-      // res.status(200)
       tone_analyzer.tone({ text: text },
         function(err, tone) {
           if (err)
@@ -64,7 +63,7 @@ app.post('/post', function(req, res){
           console.log(JSON.stringify(tone, null, 2));
         });
       }
-    }  // res.send(body)
+    })  // res.send(body)
   });
 
 
