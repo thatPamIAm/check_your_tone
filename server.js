@@ -6,6 +6,7 @@ const port = (process.env.PORT || 3000);
 const app = express();
 const request = require('request');
 // var ToneAnalyzerV3 = require('./src/tone-analyzer');
+var watson = require('watson-developer-cloud');
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,10 +34,13 @@ app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, '/../index
 app.listen(port);
 
 app.post('/post', function(req, res){
-  var query = req.body.text
+  var newObject = {
+    query: req.body.text
+  }
+  console.log(query)
 
-  request(query, function(error, response, body) {
-    if(!error && response.statusCode == 200){
+  request(newObject, function(error, response, body) {
+    if(!error){
       var test = 'testing this shhhiiiiiitt'
 
       var body = {
@@ -47,11 +51,13 @@ app.post('/post', function(req, res){
     }
   })
 });
-//get reqest to watson api
-//post json object that is returned
-//with a response object that posts in channel of slack
 
-
+// var tone_analyzer = watson.tone_analyzer({
+//   username: '{username}',
+//   password: '{password}',
+//   version: 'v3',
+//   version_date: '2016-05-19 '
+// });
 //
 // tone_analyzer.tone({ text: 'Greetings from Watson Developer Cloud!' },
 //   function(err, tone) {
