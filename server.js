@@ -27,9 +27,10 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use(express.static('app'));
 
-// app.get('/', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
-// app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
-app.get('/', function(req, res) {res.send('Running!!'); });
+//`./${process.env.INDEX_SRC}`
+app.get('/', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
+app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
+// app.get('/', function(req, res) {res.send('Running!!'); });
 
 app.listen(port);
 
@@ -52,15 +53,20 @@ app.post('/post', function(req, res){
   //port
   //path
   //method
-  tone_analyzer.tone({ text: text },
-  function(err, tone) {
-    if (err)
-    console.log(err);
-    else
-    console.log(JSON.stringify(tone, null, 2));
+  request(payload, function(error, response, body) {
+    if(!error && response.code === 200){
+      res.status(200)
+      tone_analyzer.tone({ text: text },
+        function(err, tone) {
+          if (err)
+          console.log(err);
+          else
+          console.log(JSON.stringify(tone, null, 2));
+        });
+      }
+    }  // res.send(body)
   });
-  // res.send(body)
-});
+
 
 // app.post('/post', function(req, res){
 //   var text = req.body.text;
