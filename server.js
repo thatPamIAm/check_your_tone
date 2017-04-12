@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 const port = (process.env.PORT || 3000);
 const app = express();
 const request = require('request');
-// var ToneAnalyzerV3 = require('./src/tone-analyzer');
 var watson = require('watson-developer-cloud');
 
 app.use(cors());
@@ -50,23 +49,28 @@ app.post('/post', function(req, res){
   });
 });
 
+// app.post('/post', function(req, res){
+//   var text = req.body.text
+//   var commandPayload = {
+//     text:'Hello' + text
+//   }
+//   var parsed_url = url.format({
+//     pathname:'https://gateway.watsonplatform.net/tone-analyzer/api',
+//
+//   })
+//
+//   request(parsed_url, function(error, response, body) {
+//     if(!error){
+//       var test = 'testing this shhhiiiiiitt'
+//
+//       var body = {
+//         response_type: "in_channel",
+//         text: test
+//       };
+//       res.send(body);
+//     }
+//   })
+// });
 
 
 console.log(`Listening at http://localhost:${port}`);
-
-// var parsed_url = url.format({
-//   pathname:'https://gateway.watsonplatform.net/tone-analyzer/api',
-//
-// })
-//
-// request(parsed_url, function(error, response, body) {
-//   if(!error){
-//     var test = 'testing this shhhiiiiiitt'
-//
-//     var body = {
-//       response_type: "in_channel",
-//       text: query
-//     };
-//     res.send(body);
-//   }
-// })
