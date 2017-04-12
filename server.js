@@ -32,41 +32,43 @@ app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, '/../index
 
 app.listen(port);
 
-// app.post('/post', function(req, res){
-//   var tone_analyzer = watson.tone_analyzer({
-//     username: process.env._USERNAME,
-//     password: process.env._PASSWORD,
-//     version: 'v3',
-//     version_date: '2016-05-19 '
-//   });
-//
-//   tone_analyzer.tone({ text: 'Greetings from Watson Developer Cloud!' },
-//   function(err, tone) {
-//     if (err)
-//     console.log(err);
-//     else
-//     console.log(JSON.stringify(tone, null, 2));
-//   });
-// });
-
 app.post('/post', function(req, res){
-  var text = req.body.text
+  var text = req.body.text;
 
-  var payload = {
-    text: text
-  }
+  var tone_analyzer = watson.tone_analyzer({
+    username: process.env._USERNAME,
+    password: process.env._PASSWORD,
+    version: 'v3',
+    version_date: '2016-05-19 '
+  });
 
-  request(payload, function(error, response, body) {
-    if(!error && response.code === 200){
-      var test = 'testing this shhhiiiiiitt'
-
-      var body = {
-        response_type: "in_channel",
-        text: test
-      };
-      res.send(body);
-    }
-  })
+  tone_analyzer.tone({ text: text },
+  function(err, tone) {
+    if (err)
+    console.log(err);
+    else
+    console.log(JSON.stringify(tone, null, 2));
+  });
 });
+
+// app.post('/post', function(req, res){
+//   var text = req.body.text;
+//
+//   var payload = {
+//     text: text
+//   }
+//
+//   request(payload, function(error, response, body) {
+//     if(!error && response.code === 200){
+//       var test = 'testing this shhhiiiiiitt'
+//
+//       var body = {
+//         response_type: "in_channel",
+//         text: test
+//       };
+//       res.send(body);
+//     }
+//   })
+// });
 
 console.log(`Listening at http://localhost:${port}`);
