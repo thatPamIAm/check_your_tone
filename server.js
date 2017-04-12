@@ -28,10 +28,13 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(express.static('app'));
 
 app.get('/', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
-app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, '/../index.html')) });
+app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
 
 app.listen(port);
 
+
+//req.params??? and pass in username/password/text
+//ibm watson requires header and body
 app.post('/post', function(req, res){
   console.log('post is working')
   var text = req.body.text;
@@ -43,6 +46,11 @@ app.post('/post', function(req, res){
     version_date: '2016-05-19 '
   });
 
+  //options for get
+  //host
+  //port
+  //path
+  //method
   tone_analyzer.tone({ text: text },
   function(err, tone) {
     if (err)
