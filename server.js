@@ -55,7 +55,7 @@ app.post('/post', function(req, res){
   //method
   request(payload, function(error, response, body) {
     if(!error && response.code === 200){
-      res.status(200)
+      // res.status(200)
       tone_analyzer.tone({ text: text },
         function(err, tone) {
           if (err)
