@@ -60,7 +60,7 @@ app.post('/post', function(req, res){
         if (err)
         console.log(err);
         else
-        console.log(JSON.stringify(tone, null, 2));
+        res.send(JSON.stringify(tone, null, 2));
       });
     // })
   });
