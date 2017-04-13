@@ -8,6 +8,7 @@ const request = require('request');
 
 var ToneAnalyzerV3 = require('./src/tone-analyzer');
 
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true })); //should this be false???
 app.use(bodyParser.json());
@@ -35,7 +36,6 @@ app.listen(port);
 
 app.post('/post', function(req, res){
   var text = req.body.text;
-  console.log(text);
 
   var tone_analyzer = new ToneAnalyzerV3({
     username: process.env._USERNAME,
@@ -46,14 +46,12 @@ app.post('/post', function(req, res){
 
   tone_analyzer.tone({ text: text },
     function(err, tone) {
+      console.log(tone)
       if (err)
       console.log(err);
       else
-      var displayEmotions = tone.object.document_tone.tone_categories[0].tones.map(key => {
-        return key.tone_name + " " + key.score;
-      });
-      res.send(JSON.stringify(displayEmotions, null, 2));
-    });
+      res.send(JSON.stringify(tone, null, 2));
   });
+});
 
   console.log(`Listening at http://localhost:${port}`);
