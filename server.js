@@ -14,10 +14,14 @@ var ToneAnalyzerV3 = require('./src/tone-analyzer');
 //   options: options
 // })
 
-var testSlack = {
-    "text": "New comic book alert! _The Further Adventures of Slackbot_, Volume 1, Issue 3."
-}
-
+//object
+//key labels: ['emotion', 'emotion']
+//key datasets: [
+//  {
+//    key of data: [num, num],
+//    key of backgroundColor: ["#color", '#color', '#color']
+//  }
+//]
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true })); //should this be false???
@@ -60,27 +64,15 @@ app.post('/post', function(req, res){
     function(err, tone) {
       //throw console log error if params not good
       if (err)
-      // take anaylsis and map through
       else
+      // take anaylsis and map through to return array of emotions
       var postToSlack = tone.document_tone.tone_categories[0].tones.map(key => {
         return key.tone_name + ": " + key.score;
         console.log('it should totally be working')
       });
       //need to send original text back through. check to see if send can take two arguments.
-      res.send(testSlack);
+      res.send(postToSlack);
   });
 });
-
-//object
-//key labels: ['emotion', 'emotion']
-//key datasets: [
-//  {
-//    key of data: [num, num],
-//    key of backgroundColor: ["#color", '#color', '#color']
-//  }
-//]
-
-
-
 
   console.log(`Listening at http://localhost:${port}`);
