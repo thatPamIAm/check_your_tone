@@ -48,8 +48,11 @@ app.post('/post', function(req, res){
       if (err)
       console.log(err);
       else
+      var displayEmotions = tone.object.document_tone.tone_categories[0].tones.map(key => {
+        return key.tone_name + " " + key.score;
+      });
       res.send(JSON.stringify(tone, null, 2));
+    });
   });
-});
 
   console.log(`Listening at http://localhost:${port}`);
