@@ -46,6 +46,7 @@ app.post('/post', function(req, res){
 
   tone_analyzer.tone({ text: text },
     function(err, tone) {
+      console.log(tone)
       if (err)
       console.log(err);
       else
@@ -53,8 +54,8 @@ app.post('/post', function(req, res){
       var postToSlack = tone.document_tone.tone_categories[0].tones.map(key => {
         return key.tone_name + " " + key.score;
         console.log('it should totally be working')
-        console.log(postToSlack)
       });
+      console.log(postToSlack)
       res.send(JSON.stringify(tone), null, 2);
   });
 });
