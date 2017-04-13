@@ -1,15 +1,15 @@
 const path = require('path');
 const express = require('express');
 const cors = require('express-cors');
-// const bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
 const port = (process.env.PORT || 3000);
 const app = express();
 // const request = require('request');
 var ToneAnalyzerV3 = require('./src/tone-analyzer');
 
 app.use(cors());
-// app.use(bodyParser.urlencoded({ extended: true })); //should this be false???
-// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); //should this be false???
+app.use(bodyParser.json());
 
 if (process.env.NODE_ENV !== 'production') {
   const webpack = require('webpack');
