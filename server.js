@@ -8,11 +8,11 @@ const request = require('request');
 const Chart = require('chart.js')
 
 var ToneAnalyzerV3 = require('./src/tone-analyzer');
-var slackPie = new Chart(ctx, {
-  type:'pie';
-  data: data;
-  options: options;
-})
+// var slackPie = new Chart(ctx, {
+//   type:'pie',
+//   data: data,
+//   options: options
+// })
 
 var testSlack = {
     "text": "New comic book alert! _The Further Adventures of Slackbot_, Volume 1, Issue 3."
