@@ -75,7 +75,7 @@ ToneAnalyzerV3.prototype.tone = function(params, callback) {
       url: '/v3/tone',
       method: 'POST',
       body: params.text,
-      qs: pick(params, ['tones'])
+      qs: pick(params, ['tones', 'sentences'])
     },
     defaultOptions: extend(true, this._options, {
       headers: {
