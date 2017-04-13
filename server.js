@@ -56,7 +56,7 @@ app.post('/post', function(req, res){
         console.log('it should totally be working')
       });
       console.log(postToSlack)
-      res.send(JSON.stringify(tone), null, 2);
+      res.send(postToSlack);
   });
 });
 
