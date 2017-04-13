@@ -46,12 +46,18 @@ app.post('/post', function(req, res){
 
   tone_analyzer.tone({ text: text },
     function(err, tone) {
-      console.log(tone)
       if (err)
       console.log(err);
       else
-      res.send(JSON.stringify(tone, null, 2));
+      console.log('hit else')
+      var postToSlack = tone.object.document_tone.tone_categories[0].tones.map(key => {
+        return key.tone_name + " " + key.score;
+        console.log('it should totally be working')
+        console.log(postToSlack)
+      });
+      res.send(JSON.stringify(tone), null, 2);
   });
 });
+
 
   console.log(`Listening at http://localhost:${port}`);
