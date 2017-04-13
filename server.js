@@ -40,6 +40,7 @@ app.listen(port);
 app.post('/post', function(req, res){
   console.log('post is working')
   var text = req.body.text;
+  console.log(text)
 
   var tone_analyzer = watson.tone_analyzer({
     username: process.env._USERNAME,
@@ -53,19 +54,17 @@ app.post('/post', function(req, res){
   //port
   //path
   //method
-  request(payload, function(error, response, body) {
-    if(!error && response.code === 200){
-      tone_analyzer.tone({ text: text },
-        function(err, tone) {
-          if (err)
-          console.log(err);
-          else
-          console.log(JSON.stringify(tone, null, 2));
-        });
-      }
-    })  // res.send(body)
+  // request(payload, function(error, response, body) {
+    tone_analyzer.tone({ text: text },
+      function(err, tone) {
+        if (err)
+        console.log(err);
+        else
+        console.log(JSON.stringify(tone, null, 2));
+      });
+    // })
   });
-
+// res.send(body)
 
 // app.post('/post', function(req, res){
 //   var text = req.body.text;
