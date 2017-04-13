@@ -35,6 +35,7 @@ app.listen(port);
 
 app.post('/post', function(req, res){
   var text = req.body.text;
+  console.log(text);
 
   var tone_analyzer = new ToneAnalyzerV3({
     username: process.env._USERNAME,
@@ -51,7 +52,7 @@ app.post('/post', function(req, res){
       var displayEmotions = tone.object.document_tone.tone_categories[0].tones.map(key => {
         return key.tone_name + " " + key.score;
       });
-      res.send(JSON.stringify(tone, null, 2));
+      res.send(JSON.stringify(displayEmotions, null, 2));
     });
   });
 
