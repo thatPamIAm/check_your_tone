@@ -6,7 +6,7 @@ const port = (process.env.PORT || 3000);
 const app = express();
 const request = require('request');
 // var watson = require('watson-developer-cloud');
-var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
+var ToneAnalyzerV3 = require('../tone-analyzer');
 
 
 app.use(cors());
@@ -35,9 +35,7 @@ app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, './index.h
 app.listen(port);
 
 app.post('/post', function(req, res){
-  console.log('post is working')
   var text = req.body.text;
-  console.log(text)
 
   var tone_analyzer = new ToneAnalyzerV3({
     username: process.env._USERNAME,
