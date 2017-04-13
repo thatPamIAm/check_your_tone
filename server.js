@@ -6,7 +6,7 @@ const port = (process.env.PORT || 3000);
 const app = express();
 const request = require('request');
 // var watson = require('watson-developer-cloud');
-var ToneAnalyzerV3 = require('../src/tone-analyzer');
+var ToneAnalyzerV3 = require('./src/tone-analyzer');
 
 
 app.use(cors());
