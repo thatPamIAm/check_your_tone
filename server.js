@@ -50,7 +50,7 @@ app.post('/post', function(req, res){
       console.log(err);
       else
       console.log('hit else')
-      var postToSlack = tone.object.document_tone.tone_categories[0].tones.map(key => {
+      var postToSlack = tone.document_tone.tone_categories[0].tones.map(key => {
         return key.tone_name + " " + key.score;
         console.log('it should totally be working')
         console.log(postToSlack)
