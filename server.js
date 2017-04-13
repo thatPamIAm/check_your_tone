@@ -4,7 +4,6 @@ const cors = require('express-cors');
 const bodyParser = require('body-parser')
 const port = (process.env.PORT || 3000);
 const app = express();
-
 var ToneAnalyzerV3 = require('./src/tone-analyzer');
 
 app.use(cors());
@@ -47,7 +46,7 @@ app.post('/post', function(req, res){
       if (err)
       console.log(err);
       else
-      res.send(tone);
+      res.send(JSON.stringify(tone, null, 2));
   });
 });
 
