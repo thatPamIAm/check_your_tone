@@ -69,10 +69,10 @@ app.post('/post', function(req, res){
           "author_name": "Tone Analyzer",
           "title": "An sentiment analysis of the text you entered:",
           "text":`${slack[0].tone_name} : ${Math.floor(scoreAnger * 100)}%
-${slack[1].tone_name} : ${Math.floor(scoreDisgust * 100)}
-${slack[2].tone_name} : ${Math.floor(scoreFear * 100)}
-${slack[3].tone_name} : ${Math.floor(scoreJoy * 100)}
-${slack[4].tone_name} : ${Math.floor(scoreSadness * 100)}`
+${slack[1].tone_name} : ${Math.floor(scoreDisgust * 100)}%
+${slack[2].tone_name} : ${Math.floor(scoreFear * 100)}%
+${slack[3].tone_name} : ${Math.floor(scoreJoy * 100)}%
+${slack[4].tone_name} : ${Math.floor(scoreSadness * 100)}%`
         }]
       }
       res.send(postToSlack);
