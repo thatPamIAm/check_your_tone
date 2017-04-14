@@ -64,7 +64,7 @@ app.post('/post', function(req, res){
       var postToSlack = {
         "username": "TONE ANALYZER",
         "attachments": [{
-          "color": "#9C1A22",
+          "color": "#4e7fb1",
           "pretext": `${userInput}`,
           "author_name": "Tone Analyzer",
           "title": "An sentiment analysis of the text you entered:",
