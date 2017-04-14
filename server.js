@@ -68,7 +68,8 @@ app.post('/post', function(req, res){
           "pretext": `${userInput}`,
           "author_name": "Tone Analyzer",
           "title": "An sentiment analysis of the text you entered:",
-          "text":`${slack[0].tone_name} : ${Math.floor(scoreAnger * 100)}%
+          "mrkdwn_in": ["text"],
+          "text":`*${slack[0].tone_name}* : ${Math.floor(scoreAnger * 100)}%
 ${slack[1].tone_name} : ${Math.floor(scoreDisgust * 100)}%
 ${slack[2].tone_name} : ${Math.floor(scoreFear * 100)}%
 ${slack[3].tone_name} : ${Math.floor(scoreJoy * 100)}%
@@ -80,29 +81,3 @@ ${slack[4].tone_name} : ${Math.floor(scoreSadness * 100)}%`
 });
 
   console.log(`Listening at http://localhost:${port}`);
-  //
-  // var myJSONStr = 'payload= {
-  //     "username": "SALE BOT",
-  //     "icon_url": "example.com/img/icon.jpg",
-  //     "attachments": [{
-  //         "fallback": "This attachement isn't supported.",
-  //         "title": "VALENTINE'S DAY OFFER",
-  //         "color": "#9C1A22",
-  //         "pretext": "Today's list of awesome offers picked for you",
-  //         "author_name": "Preethi",
-  //         "author_link": "http://www.hongkiat.com/blog/author/preethi/",
-  //         "author_icon": "http://media05.hongkiat.com/author/preethi.jpg",
-  //         "fields": [{
-  //             "title": "Sites",
-  //             "value": "_<http://www.amazon.com|Amazon>_\n_<http://www.ebay.com|Ebay>_",
-  //             "short": true
-  //         }, {
-  //             "title": "Offer Code",
-  //             "value": "UI90O22\n-",
-  //             "short": true
-  //         }],
-  //         "mrkdwn_in": ["text", "fields"],
-  //         "text": "Just click the site names and start buying. Get *extra reduction with the offer code*, if provided.",
-  //         "thumb_url": "http://example.com/thumbnail.jpg"
-  //     }]
-  // }';
