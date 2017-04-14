@@ -36,7 +36,7 @@ app.listen(port);
 
 //post triggered by Slack
 app.post('/post', function(req, res){
-  var text = req.body.text;
+  var userInput = req.body.text;
 //instantiation of a new object with credentials
   var tone_analyzer = new ToneAnalyzerV3({
     username: "fb839465-02ce-4473-9d1e-e66acdc3b871",
@@ -48,7 +48,7 @@ app.post('/post', function(req, res){
     version_date: '2016-05-19 '
   });
 //call to Watson's API through tone method/request in IBM files
-  tone_analyzer.tone({ text: text },
+  tone_analyzer.tone({ text: userInput },
     function(err, tone) {
       //throw console log error if params not good
       if (err)
@@ -60,9 +60,9 @@ app.post('/post', function(req, res){
         "username": "TONE ANALYZER",
         "attachments": [{
           "color": "#9C1A22",
-          "pretext": "An sentiment analysis of the text you entered:",
+          "pretext": `${userInput}`,
           "author_name": "Tone Analyzer",
-          "title": "Emotional much?",
+          "title": "An sentiment analysis of the text you entered:",
           "text":`${slack[0].tone_name} : ${slack[0].score}
 ${slack[1].tone_name} : ${slack[1].score}
 ${slack[2].tone_name} : ${slack[2].score}
