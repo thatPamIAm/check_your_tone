@@ -54,48 +54,57 @@ app.post('/post', function(req, res){
       if (err)
       console.log(err);
       else
-      console.log('hit else')
-      var payload = tone.document_tone.tone_categories[0].tones.map(key => {
-        return {
-          "color": "#36a64f",
-          "text": `${key.tone_name}./n${key.score}`,
-        }
-
-        // {
-        //             "fallback": "Required plain-text summary of the attachment.",
-        //             "color": "#36a64f",
-        //             "pretext": "Optional text that appears above the attachment block",
-        //             "author_name": "Bobby Tables",
-        //             "author_link": "http://flickr.com/bobby/",
-        //             "author_icon": "http://flickr.com/icons/bobby.jpg",
-        //             "title": "Slack API Documentation",
-        //             "title_link": "https://api.slack.com/",
-        //             "text": "Optional text that appears within the attachment",
-        //             "fields": [
-        //                 {
-        //                     "title": "Priority",
-        //                     "value": "High",
-        //                     "short": false
-        //                 }
-        //             ],
-        //             "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
-        //             "ts": 123456789
-        //         }
-        // return key.tone_name + " " + key.score;
-        console.log('it should totally be working')
-      });
-      console.log(payload)
-      res.send(payload);
+      // console.log(tone)
+      var slack = tone.document_tone.tone_categories[0].tones
+      var myJSONstr = {
+        "username": "TONE ANALYZER",
+        "attachments": [{
+          "color": "#9C1A22",
+          "pretext": "An sentiment analysis of the text you entered:",
+          "author_name": "Tone Analyzer",
+          "title": "Emotional much?",
+          "text":
+            `${slack[0].tone_name} : ${slack[0].score},
+             ${slack[1].tone_name} : ${slack[1].score},
+             ${slack[2].tone_name} : ${slack[2].score},
+             ${slack[3].tone_name} : ${slack[3].score},
+             ${slack[4].tone_name} : ${slack[4].score}`
+        }]
+      }
+      console.log(slack)
+      console.log(myJSONstr)
+      //     }
+      //     return postToSlack
+      // });
+      res.send(myJSONstr);
   });
 });
-
-//object
-//key labels: ['emotion', 'emotion']
-//key datasets: [
-//  {
-//    key of data: [num, num],
-//    key of backgroundColor: ["#color", '#color', '#color']
-//  }
-//]
-
+// title: `${key.tone_name}`,
+// text: `${key.score}`
   console.log(`Listening at http://localhost:${port}`);
+  //
+  // var myJSONStr = 'payload= {
+  //     "username": "SALE BOT",
+  //     "icon_url": "example.com/img/icon.jpg",
+  //     "attachments": [{
+  //         "fallback": "This attachement isn't supported.",
+  //         "title": "VALENTINE'S DAY OFFER",
+  //         "color": "#9C1A22",
+  //         "pretext": "Today's list of awesome offers picked for you",
+  //         "author_name": "Preethi",
+  //         "author_link": "http://www.hongkiat.com/blog/author/preethi/",
+  //         "author_icon": "http://media05.hongkiat.com/author/preethi.jpg",
+  //         "fields": [{
+  //             "title": "Sites",
+  //             "value": "_<http://www.amazon.com|Amazon>_\n_<http://www.ebay.com|Ebay>_",
+  //             "short": true
+  //         }, {
+  //             "title": "Offer Code",
+  //             "value": "UI90O22\n-",
+  //             "short": true
+  //         }],
+  //         "mrkdwn_in": ["text", "fields"],
+  //         "text": "Just click the site names and start buying. Get *extra reduction with the offer code*, if provided.",
+  //         "thumb_url": "http://example.com/thumbnail.jpg"
+  //     }]
+  // }';
