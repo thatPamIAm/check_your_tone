@@ -55,7 +55,7 @@ app.post('/post', function(req, res){
       console.log(err);
       else
       console.log('hit else')
-      var postToSlack = tone.document_tone.tone_categories[0].tones.map(key => {
+      var payload = tone.document_tone.tone_categories[0].tones.map(key => {
         return {
           "color": "#36a64f",
           "text": `${key.tone_name}./n${key.score}`,
@@ -84,8 +84,8 @@ app.post('/post', function(req, res){
         // return key.tone_name + " " + key.score;
         console.log('it should totally be working')
       });
-      console.log(postToSlack)
-      res.send(postToSlack);
+      console.log(payload)
+      res.send(payload);
   });
 });
 
