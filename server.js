@@ -64,7 +64,11 @@ app.post('/post', function(req, res){
           "author_name": "Tone Analyzer",
           "title": "Emotional much?",
           "text":
-            `${slack[0].tone_name} : ${slack[0].score},${slack[1].tone_name} : ${slack[1].score}, ${slack[2].tone_name} : ${slack[2].score}, ${slack[3].tone_name} : ${slack[3].score}, ${slack[4].tone_name} : ${slack[4].score}`
+          `${slack[0].tone_name} : ${slack[0].score}
+           ${slack[1].tone_name} : ${slack[1].score}
+           ${slack[2].tone_name} : ${slack[2].score}
+           ${slack[3].tone_name} : ${slack[3].score}
+           ${slack[4].tone_name} : ${slack[4].score}`
         }]
       }
       console.log(slack)
