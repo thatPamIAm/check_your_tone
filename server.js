@@ -54,32 +54,31 @@ app.post('/post', function(req, res){
       if (err)
       console.log(err);
       else
-      // console.log(tone)
-      var slack = tone.document_tone.tone_categories[0].tones
-      var myJSONstr = {
+      // create object from results for posting to Slack
+      var slack = tone.document_tone.tone_categories[0].tones;
+      var scoreAnger = slack[0].score;
+      var scoreDisgust = slack[1].score;
+      var scoreFear = slack[2].score;
+      var scoreJoy = slack[3].score;
+      var scoreSadness = slack[4].score;
+      var postToSlack = {
         "username": "TONE ANALYZER",
         "attachments": [{
           "color": "#9C1A22",
           "pretext": `${userInput}`,
           "author_name": "Tone Analyzer",
           "title": "An sentiment analysis of the text you entered:",
-          "text":`${slack[0].tone_name} : ${slack[0].score}
+          "text":`${slack[0].tone_name} : ${Math.floor(scoreAnger) * 100}%
 ${slack[1].tone_name} : ${slack[1].score}
 ${slack[2].tone_name} : ${slack[2].score}
 ${slack[3].tone_name} : ${slack[3].score}
 ${slack[4].tone_name} : ${slack[4].score}`
         }]
       }
-      console.log(slack)
-      console.log(myJSONstr)
-      //     }
-      //     return postToSlack
-      // });
-      res.send(myJSONstr);
+      res.send(postToSlack);
   });
 });
-// title: `${key.tone_name}`,
-// text: `${key.score}`
+
   console.log(`Listening at http://localhost:${port}`);
   //
   // var myJSONStr = 'payload= {
