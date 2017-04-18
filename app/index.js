@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
+import UserInput from './UserInput/UserInput.js'
 
 class Root extends Component {
   componentDidMount() {
-    // INSERT API CALL TO YOUR INTERNAL API
+
   }
 
   render() {
     return (
-      <div>Enter your text analysis here!!</div>
+      <div>
+        <App/>
+        <UserInput/>
+      </div>
     )
   }
 }
 
-render(<Root />, document.getElementById('main'))
+render(<App />, document.getElementById('main'))

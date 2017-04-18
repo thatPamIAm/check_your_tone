@@ -1,13 +1,13 @@
 const path = require('path');
 const express = require('express');
+const app = express();
 const cors = require('express-cors');
 const bodyParser = require('body-parser')
-const port = (process.env.PORT || 3000);
-const app = express();
 const request = require('request');
+const port = (process.env.PORT || 3000);
 
+app.locals.testing = {};
 var ToneAnalyzerV3 = require('./src/tone-analyzer');
-
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true })); //should this be false???
@@ -28,22 +28,19 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.use(express.static('app'));
-
 app.get('/', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
 app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
-
 app.listen(port);
 
-//post triggered by Slack
+
+//Command line slash for analyzing text that was submitted
 app.post('/post', function(req, res){
   var userInput = req.body.text;
+
 //instantiation of a new object with credentials
   var tone_analyzer = new ToneAnalyzerV3({
-    username: "fb839465-02ce-4473-9d1e-e66acdc3b871",
-    password: 'g7jdAQ0qBqDG',
-
-    // username: process.env._USERNAME,
-    // password: process.env._PASSWORD,
+    username: process.env._USERNAME,
+    password: process.env._PASSWORD,
     version: 'v3',
     version_date: '2016-05-19 '
   });
@@ -80,4 +77,19 @@ app.post('/post', function(req, res){
   });
 });
 
-  console.log(`Listening at http://localhost:${port}`);
+//
+// var url = "https://" + team + ".slack.com/api/" + family + ".history?token=" + token + "&channel=" + value;
+
+//Command line slash for grabbing last 100 messages
+
+// var url = `https://slack.com/api/channels.history?token=${token}channel=${channel}&pretty=1`
+// var token
+// var channel
+//
+// app.post('/post100', function(req, res) {
+//
+// })
+//  https://slack.com/api/channels.history?token=xoxp-165763441056-166508126388-170470360917-f166c97626e08acb5022d1662a0a4a7b&channel=C4WBT1K27&pretty=1
+
+console.log(`Listening at http://localhost:${port}`);
+module.exports = app;
