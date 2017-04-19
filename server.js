@@ -5,8 +5,43 @@ const cors = require('express-cors');
 const bodyParser = require('body-parser')
 const request = require('request');
 const port = (process.env.PORT || 3000);
+var slack = require('slack')
+var channel = 'C4WBT1K27'
 
-app.locals.testing = {};
+// var harlan = slack.rtm.client()
+// var token = 'xoxb-170454401809-cWUoc4TjBkT7oSsrf7iMp53Q'
+// harlan.listen({token})
+//
+// slack.channels.history({token, channel},
+//   (err, data) => {
+//     if (err)
+//       console.log(err);
+//     else
+//     var messages = data.messages;
+//     var allText =  messages.map((key)=> {
+//       return (key.text);
+//     })
+//     makeIntoOneString(allText)
+//   })
+//
+// function makeIntoOneString(data) {
+//   var removeCommas = data.join(",")
+//   var oneStringArray = removeCommas.split();
+//   // toObject(oneStringArray)
+//   console.log('finishedlastfunction')
+// }
+
+// function toObject(array) {
+//   newObject = {};
+//   for (var i = 0; i < array.length; i++){
+//   newObject[i] = array[i];
+//   return newObject;
+//   console.log(newObject)
+//
+// }
+// }
+
+// app.locals.testing = {};
 var ToneAnalyzerV3 = require('./src/tone-analyzer');
 
 app.use(cors());
@@ -32,10 +67,10 @@ app.get('/', function (req, res) { res.sendFile(path.join(__dirname, './index.ht
 app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
 app.listen(port);
 
-
 //Command line slash for analyzing text that was submitted
 app.post('/post', function(req, res){
   var userInput = req.body.text;
+  console.log(userInput)
 
 //instantiation of a new object with credentials
   var tone_analyzer = new ToneAnalyzerV3({
@@ -44,6 +79,7 @@ app.post('/post', function(req, res){
     version: 'v3',
     version_date: '2016-05-19 '
   });
+console.log('watson', userInput )
 //call to Watson's API through tone method/request in IBM files
   tone_analyzer.tone({ text: userInput },
     function(err, tone) {
@@ -77,19 +113,6 @@ app.post('/post', function(req, res){
   });
 });
 
-//
-// var url = "https://" + team + ".slack.com/api/" + family + ".history?token=" + token + "&channel=" + value;
-
-//Command line slash for grabbing last 100 messages
-
-// var url = `https://slack.com/api/channels.history?token=${token}channel=${channel}&pretty=1`
-// var token
-// var channel
-//
-// app.post('/post100', function(req, res) {
-//
-// })
-//  https://slack.com/api/channels.history?token=xoxp-165763441056-166508126388-170470360917-f166c97626e08acb5022d1662a0a4a7b&channel=C4WBT1K27&pretty=1
+module.exports = app;
 
 console.log(`Listening at http://localhost:${port}`);
-module.exports = app;

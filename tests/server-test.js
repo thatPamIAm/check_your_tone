@@ -12,7 +12,7 @@ describe('Server', () => {
     });
 
     this.request = request.defaults({
-      baseUrl: 'http://localhost:9876/'
+      baseUrl: 'http://localhost:3000/'
     });
   });
 
@@ -36,13 +36,6 @@ describe('Server', () => {
 
 describe('POST /post', () => {
 
-  it.skip('should receive and store data', (done) => {
-
-
-    assert(true);
-    done();
-  });
-
   it('should not return a 404 status', (done) => {
     this.request.post('/post', (err, res) => {
       if (err) { done(err); }
@@ -50,4 +43,12 @@ describe('POST /post', () => {
       done();
     })
   })
+
+  it.skip('should send back a tone anaylsis when text is passed', (done) => {
+    this.request.post('/post', (err, res))
+    assert(true);
+    done();
+  });
+
+
 });
