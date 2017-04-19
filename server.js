@@ -5,14 +5,14 @@ const cors = require('express-cors');
 const bodyParser = require('body-parser')
 const request = require('request');
 const port = (process.env.PORT || 3000);
-let slack = require('slack')
+var slack = require('slack')
 const Slack = require('node-slackr');
 
 //RTM messaging Slack API requirements and Watson
 const channel = 'C4WBT1K27'
 const token = 'xoxb-170454401809-cWUoc4TjBkT7oSsrf7iMp53Q'
 const harlan = slack.rtm.client()
-let ToneAnalyzerV3 = require('./src/tone-analyzer');
+var ToneAnalyzerV3 = require('./src/tone-analyzer');
 const slackHook = new Slack('https://hooks.slack.com/services/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', {
   channel: "#general",
   username: "Harlan the Tone Analyzer",
@@ -53,8 +53,8 @@ slack.channels.history({token, channel},
     if (err)
     console.log(err);
     else
-    let messages = data.messages;
-    let grabAllText =  messages.map((key)=> {
+    var messages = data.messages;
+    var grabAllText =  messages.map((key)=> {
       return (key.text);
     })
     makeIntoObj(grabAllText)
@@ -62,8 +62,8 @@ slack.channels.history({token, channel},
 
   //creates payload to send to Watson
   function makeIntoObj(allText) {
-    let noCommas = allText.join(" ")
-    let channelText = {
+    var noCommas = allText.join(" ")
+    var channelText = {
       "body": {
         "text": noCommas
       }
@@ -72,8 +72,8 @@ slack.channels.history({token, channel},
   }
 
   function sendToWatson(req) {
-    let userInput = req.body.text;
-    let tone_analyzer = new ToneAnalyzerV3({
+    var userInput = req.body.text;
+    var tone_analyzer = new ToneAnalyzerV3({
       username: 'fb839465-02ce-4473-9d1e-e66acdc3b871',
       password: 'g7jdAQ0qBqDG',
       version: 'v3',
@@ -85,13 +85,13 @@ slack.channels.history({token, channel},
         if (err)
           console.log(err);
         else
-        let slack = tone.document_tone.tone_categories[0].tones;
-        let scoreAnger = slack[0].score;
-        let scoreDisgust = slack[1].score;
-        let scoreFear = slack[2].score;
-        let scoreJoy = slack[3].score;
-        let scoreSadness = slack[4].score;
-        let postToSlack = {
+        var slack = tone.document_tone.tone_categories[0].tones;
+        var scoreAnger = slack[0].score;
+        var scoreDisgust = slack[1].score;
+        var scoreFear = slack[2].score;
+        var scoreJoy = slack[3].score;
+        var scoreSadness = slack[4].score;
+        var postToSlack = {
           "username": "Harlan the Tone Analyzer",
           "attachments": [{
             "color": "#4e7fb1",
@@ -113,10 +113,10 @@ slack.channels.history({token, channel},
 //***Command line slash w/Slack API for analysis of submitted text***//
 
 app.post('/post', function(req, res){
-  let userInput = req.body.text;
+  var userInput = req.body.text;
 
 //instantiation of a new object with credentials
-  let tone_analyzer = new ToneAnalyzerV3({
+  var tone_analyzer = new ToneAnalyzerV3({
     username: process.env._USERNAME,
     password: process.env._PASSWORD,
     version: 'v3',
@@ -130,13 +130,13 @@ app.post('/post', function(req, res){
       console.log(err);
       else
       // create object from results for posting to Slack
-      let slack = tone.document_tone.tone_categories[0].tones;
-      let scoreAnger = slack[0].score;
-      let scoreDisgust = slack[1].score;
-      let scoreFear = slack[2].score;
-      let scoreJoy = slack[3].score;
-      let scoreSadness = slack[4].score;
-      let postToSlack = {
+      var slack = tone.document_tone.tone_categories[0].tones;
+      var scoreAnger = slack[0].score;
+      var scoreDisgust = slack[1].score;
+      var scoreFear = slack[2].score;
+      var scoreJoy = slack[3].score;
+      var scoreSadness = slack[4].score;
+      var postToSlack = {
         "username": "Harlan the Tone Analyzer",
         "attachments": [{
           "color": "#4e7fb1",
