@@ -45,74 +45,74 @@ app.listen(port);
 
 
 //***RTM w/Slack API for entire channel's history***//
-
-//grabs channel's history when local server starts or updates
-harlan.listen({token})
-// RTM API has a thin wrapper for WebSocket
-slack.channels.history({token, channel},
-  (err, data) => {
-    if (err)
-    console.log(err);
-    else
-    var messages = data.messages;
-    var grabAllText =  messages.map((key)=> {
-      return (key.text);
-    })
-    makeIntoObj(grabAllText)
-  })
-
-  //creates payload to send to Watson
-  function makeIntoObj(allText) {
-    var noCommas = allText.join(" ")
-    var channelText = {
-      "body": {
-        "text": noCommas
-      }
-    }
-    sendToWatson(channelText)
-  }
-
-  //instantiation of new object with credentials
-  function sendToWatson(req) {
-    var userInput = req.body.text;
-    var tone_analyzer = new ToneAnalyzerV3({
-      username: 'fb839465-02ce-4473-9d1e-e66acdc3b871',
-      password: 'g7jdAQ0qBqDG',
-      version: 'v3',
-      version_date: '2016-05-19 '
-    });
-    //call to Watson's API through tone method/request in IBM files
-    tone_analyzer.tone({ text: userInput },
-      function(err, tone) {
-        //throw console log error if params not good
-        if (err)
-          console.log(err);
-        else
-        // create object from results for posting to Slack
-        var slack = tone.document_tone.tone_categories[0].tones;
-        var scoreAnger = slack[0].score;
-        var scoreDisgust = slack[1].score;
-        var scoreFear = slack[2].score;
-        var scoreJoy = slack[3].score;
-        var scoreSadness = slack[4].score;
-        var postToSlack = {
-          "username": "Harlan the Tone Analyzer",
-          "attachments": [{
-            "color": "#4e7fb1",
-            "pretext": "The following is an sentiment analysis of the last 100 messages in this channel",
-            "author_name": "Tone Analyzer",
-            "title": "A sentiment analysis of the conversation in this channel:",
-            "mrkdwn_in": ["text"],
-            "text":`*${slack[0].tone_name}* : ${Math.floor(scoreAnger * 100)}%
-*${slack[1].tone_name}* : ${Math.floor(scoreDisgust * 100)}%
-*${slack[2].tone_name}* : ${Math.floor(scoreFear * 100)}%
-*${slack[3].tone_name}* : ${Math.floor(scoreJoy * 100)}%
-*${slack[4].tone_name}* : ${Math.floor(scoreSadness * 100)}%`
-          }]
-        }
-        slackHook.notify(postToSlack);
-      });
-    }
+//
+// grabs channel's history when local server starts or updates
+// harlan.listen({token})
+// // // RTM API has a thin wrapper for WebSocket
+// slack.channels.history({token, channel},
+//   (err, data) => {
+//     if (err)
+//     console.log(err);
+//     else
+//     var messages = data.messages;
+//     var grabAllText =  messages.map((key)=> {
+//       return (key.text);
+//     })
+//     makeIntoObj(grabAllText)
+//   })
+//
+//   //creates payload to send to Watson
+//   function makeIntoObj(allText) {
+//     var noCommas = allText.join(" ")
+//     var channelText = {
+//       "body": {
+//         "text": noCommas
+//       }
+//     }
+//     sendToWatson(channelText)
+//   }
+//
+//   //instantiation of new object with credentials
+//   function sendToWatson(req) {
+//     var userInput = req.body.text;
+//     var tone_analyzer = new ToneAnalyzerV3({
+//       username: 'fb839465-02ce-4473-9d1e-e66acdc3b871',
+//       password: 'g7jdAQ0qBqDG',
+//       version: 'v3',
+//       version_date: '2016-05-19 '
+//     });
+//     //call to Watson's API through tone method/request in IBM files
+//     tone_analyzer.tone({ text: userInput },
+//       function(err, tone) {
+//         //throw console log error if params not good
+//         if (err)
+//           console.log(err);
+//         else
+//         // create object from results for posting to Slack
+//         var slack = tone.document_tone.tone_categories[0].tones;
+//         var scoreAnger = slack[0].score;
+//         var scoreDisgust = slack[1].score;
+//         var scoreFear = slack[2].score;
+//         var scoreJoy = slack[3].score;
+//         var scoreSadness = slack[4].score;
+//         var postToSlack = {
+//           "username": "Harlan the Tone Analyzer",
+//           "attachments": [{
+//             "color": "#4e7fb1",
+//             "pretext": "The following is an sentiment analysis of the last 100 messages in this channel",
+//             "author_name": "Tone Analyzer",
+//             "title": "A sentiment analysis of the conversation in this channel:",
+//             "mrkdwn_in": ["text"],
+//             "text":`*${slack[0].tone_name}* : ${Math.floor(scoreAnger * 100)}%
+// *${slack[1].tone_name}* : ${Math.floor(scoreDisgust * 100)}%
+// *${slack[2].tone_name}* : ${Math.floor(scoreFear * 100)}%
+// *${slack[3].tone_name}* : ${Math.floor(scoreJoy * 100)}%
+// *${slack[4].tone_name}* : ${Math.floor(scoreSadness * 100)}%`
+//           }]
+//         }
+//         slackHook.notify(postToSlack);
+//       });
+//     }
 
 
 //***Command line slash w/Slack API for analysis of submitted text***//
@@ -160,6 +160,6 @@ app.post('/post', function(req, res){
   });
 });
 
-module.exports = {app, makeIntoObj};
+module.exports = app;
 
 console.log(`Listening at http://localhost:${port}`);

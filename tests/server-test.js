@@ -1,6 +1,6 @@
 const assert = require('assert');
 const request = require('request');
-const {app, makeIntoObj} = require('../server.js');
+const app = require('../server.js');
 
 describe('Server', () => {
 
