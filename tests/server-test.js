@@ -1,6 +1,6 @@
 const assert = require('assert');
 const request = require('request');
-const app = require('../server.js');
+const {app, makeIntoObj} = require('../server.js');
 
 describe('Server', () => {
 
@@ -43,27 +43,23 @@ describe('POST /post', () => {
       done();
     })
   })
+})
 
-  it('should send back a tone anaylsis when text is passed', (done) => {
-    this.request.post('/post', (err, res))
-    assert(true);
-    done();
-  });
-});
+//   it.skip('should send back a tone anaylsis when text is passed', (done) => {
+//     this.request.post('/post', (err, res))
+//     assert(true);
+//     done();
+//   });
+// });
 
-describe('', () => {
-
-  it('should not return a 404 status', (done) => {
-    this.request.post('/post', (err, res) => {
-      if (err) { done(err); }
-      assert.notEqual(res.statusCode, 404);
-      done();
-    })
-  })
-
-  it.skip('should send back a tone anaylsis when text is passed', (done) => {
-    this.request.post('/post', (err, res))
-    assert(true);
-    done();
-  });
-});
+// describe('helper functions', () => {
+//
+//   it('should have makeIntoObj make an array into an obj', (done) => {
+//     var text = ['hello', 'these are messages', 'so glad to be here'];
+//     const test = makeIntoObj(text);
+//     console.log(test);
+//
+//     assert.equal(test, { body: { text: 'hello these are messages so glad to be here' } })
+//     done();
+//   });
+// });

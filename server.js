@@ -48,7 +48,7 @@ app.listen(port);
 
 //grabs channel's history when local server starts or updates
 harlan.listen({token})
-
+// RTM API has a thin wrapper for WebSocket
 slack.channels.history({token, channel},
   (err, data) => {
     if (err)
@@ -120,7 +120,7 @@ slack.channels.history({token, channel},
 app.post('/post', function(req, res){
   var userInput = req.body.text;
 
-//instantiation of a new object with credentials
+//instantiation of a new Tone Analyzer constructor with credentials
   var tone_analyzer = new ToneAnalyzerV3({
     username: process.env._USERNAME,
     password: process.env._PASSWORD,
@@ -160,6 +160,6 @@ app.post('/post', function(req, res){
   });
 });
 
-module.exports = app;
+module.exports = {app, makeIntoObj};
 
 console.log(`Listening at http://localhost:${port}`);
