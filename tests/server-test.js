@@ -44,7 +44,7 @@ describe('POST /post', () => {
     })
   })
 
-  it.skip('should send back a tone anaylsis when text is passed', (done) => {
+  it('should send back a tone anaylsis when text is passed', (done) => {
     this.request.post('/post', (err, res))
     assert(true);
     done();
