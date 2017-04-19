@@ -1,6 +1,6 @@
 const assert = require('assert');
 const request = require('request');
-const app = require('../server.js');
+const {app, makeIntoObj} = require('../server.js');
 
 describe('Server', () => {
 
@@ -45,21 +45,14 @@ describe('POST /post', () => {
   })
 })
 
-//   it.skip('should send back a tone anaylsis when text is passed', (done) => {
-//     this.request.post('/post', (err, res))
-//     assert(true);
-//     done();
-//   });
-// });
+describe('helper functions', () => {
 
-// describe('helper functions', () => {
-//
-//   it('should have makeIntoObj make an array into an obj', (done) => {
-//     var text = ['hello', 'these are messages', 'so glad to be here'];
-//     const test = makeIntoObj(text);
-//     console.log(test);
-//
-//     assert.equal(test, { body: { text: 'hello these are messages so glad to be here' } })
-//     done();
-//   });
-// });
+  it('should have makeIntoObj make an array into an obj', (done) => {
+    var text = ['hello', 'these are messages', 'so glad to be here'];
+    const test = makeIntoObj(text);
+    console.log(test);
+
+    assert.deepEqual(test, { body: { text: 'hello these are messages so glad to be here' } })
+    done();
+  });
+});
