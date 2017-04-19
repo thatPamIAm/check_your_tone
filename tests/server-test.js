@@ -49,6 +49,21 @@ describe('POST /post', () => {
     assert(true);
     done();
   });
+});
 
+describe('', () => {
 
+  it('should not return a 404 status', (done) => {
+    this.request.post('/post', (err, res) => {
+      if (err) { done(err); }
+      assert.notEqual(res.statusCode, 404);
+      done();
+    })
+  })
+
+  it.skip('should send back a tone anaylsis when text is passed', (done) => {
+    this.request.post('/post', (err, res))
+    assert(true);
+    done();
+  });
 });
