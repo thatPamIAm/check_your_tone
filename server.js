@@ -43,9 +43,10 @@ app.get('/', function (req, res) { res.sendFile(path.join(__dirname, './index.ht
 app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
 app.listen(port);
 
+
 //***RTM w/Slack API for entire channel's history***//
 
-//grabs channel's history upon node server starting
+//grabs channel's history when local server starts or updates
 harlan.listen({token})
 
 slack.channels.history({token, channel},
@@ -71,6 +72,7 @@ slack.channels.history({token, channel},
     sendToWatson(channelText)
   }
 
+  //instantiation of new object with credentials
   function sendToWatson(req) {
     var userInput = req.body.text;
     var tone_analyzer = new ToneAnalyzerV3({
@@ -79,12 +81,14 @@ slack.channels.history({token, channel},
       version: 'v3',
       version_date: '2016-05-19 '
     });
-
+    //call to Watson's API through tone method/request in IBM files
     tone_analyzer.tone({ text: userInput },
       function(err, tone) {
+        //throw console log error if params not good
         if (err)
           console.log(err);
         else
+        // create object from results for posting to Slack
         var slack = tone.document_tone.tone_categories[0].tones;
         var scoreAnger = slack[0].score;
         var scoreDisgust = slack[1].score;
@@ -109,6 +113,7 @@ slack.channels.history({token, channel},
         slackHook.notify(postToSlack);
       });
     }
+
 
 //***Command line slash w/Slack API for analysis of submitted text***//
 
