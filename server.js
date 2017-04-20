@@ -8,7 +8,6 @@ const port = (process.env.PORT || 3000);
 var slack = require('slack')
 const Slack = require('node-slackr');
 
-// const USERNAME = require('./watsonUsername').USERNAME
 
 //RTM messaging Slack API requirements and Watson
 const channel = 'C4WBT1K27'
