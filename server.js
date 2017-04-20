@@ -7,46 +7,42 @@ const request = require('request');
 const port = (process.env.PORT || 3000);
 var slack = require('slack')
 const Slack = require('node-slackr');
+var ToneAnalyzerV3 = require('./src/tone-analyzer');
 
+app.locals.testing = {};
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true })); //should this be false???
+app.use(bodyParser.json());
 
-//RTM messaging Slack API requirements and Watson
-// const channel = 'C4WBT1K27'
-// const harlan = slack.rtm.client()
-// var ToneAnalyzerV3 = require('./src/tone-analyzer');
+if (process.env.NODE_ENV !== 'production') {
+  const webpack = require('webpack');
+  const webpackDevMiddleware = require('webpack-dev-middleware');
+  const webpackHotMiddleware = require('webpack-hot-middleware');
+  const config = require('./webpack.config.js');
+  const compiler = webpack(config);
+
+  app.use(webpackHotMiddleware(compiler));
+  app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath
+  }));
+}
+
+app.use(express.static('app'));
+app.get('/', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
+app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
+app.listen(port);
+
 // const slackHook = new Slack('https://hooks.slack.com/services/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', {
 //   channel: "#general",
 //   username: "Harlan the Tone Analyzer",
 // });
+// const channel = 'C4WBT1K27'
+// const harlan = slack.rtm.client()
+
+//***RTM w/Slack API for entire channel's history***//
 //
-//
-// app.locals.testing = {};
-// app.use(cors());
-// app.use(bodyParser.urlencoded({ extended: true })); //should this be false???
-// app.use(bodyParser.json());
-//
-// if (process.env.NODE_ENV !== 'production') {
-//   const webpack = require('webpack');
-//   const webpackDevMiddleware = require('webpack-dev-middleware');
-//   const webpackHotMiddleware = require('webpack-hot-middleware');
-//   const config = require('./webpack.config.js');
-//   const compiler = webpack(config);
-//
-//   app.use(webpackHotMiddleware(compiler));
-//   app.use(webpackDevMiddleware(compiler, {
-//     noInfo: true,
-//     publicPath: config.output.publicPath
-//   }));
-// }
-//
-// app.use(express.static('app'));
-// app.get('/', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
-// app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
-// app.listen(port);
-//
-//
-// //***RTM w/Slack API for entire channel's history***//
-// //
-// // grabs channel's history when local server starts or updates
+// grabs channel's history when local server starts or updates
 // harlan.listen({token})
 //
 // // RTM API has a thin wrapper for WebSocket
