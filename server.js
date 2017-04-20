@@ -159,6 +159,6 @@ app.post('/post', function(req, res){
   });
 });
 
-module.exports = {app, makeIntoObj};
+module.exports = app;
 
 console.log(`Listening at http://localhost:${port}`);
