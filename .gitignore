@@ -1,1 +1,6 @@
 node_modules/
+
+#do not commit real tokens
+token.js
+server.js
+watsonToken.js

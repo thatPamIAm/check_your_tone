@@ -8,6 +8,8 @@ const port = (process.env.PORT || 3000);
 var slack = require('slack')
 const Slack = require('node-slackr');
 var ToneAnalyzerV3 = require('./src/tone-analyzer');
+const token = require('./token.js')
+const watsonToken = require('./watsonToken')
 
 app.locals.testing = {};
 app.use(cors());
@@ -74,12 +76,7 @@ app.listen(port);
 //   //instantiation of new object with credentials
 //   function sendToWatson(req) {
 //     var userInput = req.body.text;
-//     var tone_analyzer = new ToneAnalyzerV3({
-//       username: 'fb839465-02ce-4473-9d1e-e66acdc3b871',
-//       password: 'g7jdAQ0qBqDG',
-//       version: 'v3',
-//       version_date: '2016-05-19 '
-//     });
+//     var tone_analyzer = new ToneAnalyzerV3(watsonToken);
 //     //call to Watson's API through tone method/request in IBM files
 //     tone_analyzer.tone({ text: userInput },
 //       function(err, tone) {
