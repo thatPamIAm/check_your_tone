@@ -8,8 +8,8 @@ const port = (process.env.PORT || 3000);
 var slack = require('slack')
 const Slack = require('node-slackr');
 var ToneAnalyzerV3 = require('./src/tone-analyzer');
-const token = require('./token.js')
-const watsonToken = require('./watsonToken')
+// const token = require('./token.js')
+// const watsonToken = require('./watsonToken')
 
 app.locals.testing = {};
 app.use(cors());
