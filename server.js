@@ -8,11 +8,10 @@ const port = (process.env.PORT || 3000);
 var slack = require('slack')
 const Slack = require('node-slackr');
 
-const USERNAME = require('./watsonUsername').USERNAME
+// const USERNAME = require('./watsonUsername').USERNAME
 
 //RTM messaging Slack API requirements and Watson
 const channel = 'C4WBT1K27'
-const token = 'xoxb-170454401809-5xQyqmYJXYoKvdeu6xHlU720'
 const harlan = slack.rtm.client()
 var ToneAnalyzerV3 = require('./src/tone-analyzer');
 const slackHook = new Slack('https://hooks.slack.com/services/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', {
@@ -50,10 +49,11 @@ app.listen(port);
 //
 // grabs channel's history when local server starts or updates
 harlan.listen({token})
-// // RTM API has a thin wrapper for WebSocket
 
+// RTM API has a thin wrapper for WebSocket
 slack.channels.history({token, channel},
   (err, data) => {
+    console.log(data)
     if (err)
     console.log(err);
     else
