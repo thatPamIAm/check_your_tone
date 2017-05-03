@@ -1,43 +1,43 @@
-const path = require('path');
-const express = require('express');
-const app = express();
-const cors = require('express-cors');
-const bodyParser = require('body-parser');
-const request = require('request');
-const port = (process.env.PORT || 3000);
-var slack = require('slack');
+const path = require('path')
+const express = require('express')
+const app = express()
+const cors = require('express-cors')
+const bodyParser = require('body-parser')
+const request = require('request')
+const port = (process.env.PORT || 3000)
+var slack = require('slack')
 
 //files
-var ToneAnalyzerV3 = require('./src/tone-analyzer');
-const channelNames = require('./src/channelNames');
-const token = require('./token.js');
-const slackHook = require('./slackHook');
+var ToneAnalyzerV3 = require('./src/tone-analyzer')
+const channelNames = require('./src/channelNames')
+const token = require('./token.js')
+const slackHook = require('./slackHook')
 
-app.locals.testing = {};
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true })); //should this be false???
-app.use(bodyParser.json());
+app.locals.testing = {}
+app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 if (process.env.NODE_ENV !== 'production') {
-  const webpack = require('webpack');
-  const webpackDevMiddleware = require('webpack-dev-middleware');
-  const webpackHotMiddleware = require('webpack-hot-middleware');
-  const config = require('./webpack.config.js');
-  const compiler = webpack(config);
+  const webpack = require('webpack')
+  const webpackDevMiddleware = require('webpack-dev-middleware')
+  const webpackHotMiddleware = require('webpack-hot-middleware')
+  const config = require('./webpack.config.js')
+  const compiler = webpack(config)
 
-  app.use(webpackHotMiddleware(compiler));
+  app.use(webpackHotMiddleware(compiler))
   app.use(webpackDevMiddleware(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath
-  }));
+  }))
 }
 
-app.use(express.static('app'));
-app.get('/', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
-app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
-app.listen(port);
+app.use(express.static('app'))
+app.get('/', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) })
+app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) })
+app.listen(port)
 
-//***RTM w/Slack API for entire channel's history***//
+//***RTM, Events w/Slack API for entire channel's history***//
 
 //create user bot and store channelName where bot is called
 var harlan = slack.rtm.client()
@@ -95,11 +95,11 @@ function pullChannelHistory(token, channel){
 slack.channels.history({token, channel},
   (err, data) => {
     if (err)
-      console.log(err);
+      console.log(err)
     else
-    var messages = data.messages;
+    var messages = data.messages
     var grabAllText =  messages.map((key)=> {
-      return (key.text);
+      return (key.text)
     })
     var obj = makeIntoObj(grabAllText)
     sendToWatson(obj)
@@ -119,7 +119,7 @@ slack.channels.history({token, channel},
 
   //sends text to Watson API
   function sendToWatson(req) {
-    var userInput = req.body.text;
+    var userInput = req.body.text
     //instantiation of a new Tone Analyzer constructor with credentials
     var tone_analyzer = new ToneAnalyzerV3({
     username: process.env._USERNAME,
@@ -132,15 +132,15 @@ tone_analyzer.tone({ text: userInput },
   function(err, tone) {
     //throw console log error if params not good
     if (err)
-      console.log(err);
+      console.log(err)
     else
     // create object from results for posting to Slack
-    var slack = tone.document_tone.tone_categories[0].tones;
-    var scoreAnger = slack[0].score;
-    var scoreDisgust = slack[1].score;
-    var scoreFear = slack[2].score;
-    var scoreJoy = slack[3].score;
-    var scoreSadness = slack[4].score;
+    var slack = tone.document_tone.tone_categories[0].tones
+    var scoreAnger = slack[0].score
+    var scoreDisgust = slack[1].score
+    var scoreFear = slack[2].score
+    var scoreJoy = slack[3].score
+    var scoreSadness = slack[4].score
     //indentation intentional on postToSlack object for display purposes in Slack
     var postToSlack = {
       "username": "Harlan the Tone Analyzer",
@@ -157,15 +157,14 @@ tone_analyzer.tone({ text: userInput },
 *${slack[4].tone_name}* : ${Math.floor(scoreSadness * 100)}%`
       }]
     }
-    slackHook.notify(postToSlack);
+    slackHook.notify(postToSlack)
   });
 }
 
-//***Command line slash w/Slack API for analysis of submitted text***//
+//***Command line slash for analysis of submitted text***//
 
 app.post('/post', function(req, res){
-  var userInput = req.body.text;
-
+  var userInput = req.body.text
 //instantiation of a new Tone Analyzer constructor with credentials
   var tone_analyzer = new ToneAnalyzerV3({
     username: process.env._USERNAME,
@@ -178,15 +177,16 @@ app.post('/post', function(req, res){
     function(err, tone) {
       //throw console log error if params not good
       if (err)
-      console.log(err);
+        console.log(err)
       else
       // create object from results for posting to Slack
-      var slack = tone.document_tone.tone_categories[0].tones;
-      var scoreAnger = slack[0].score;
-      var scoreDisgust = slack[1].score;
-      var scoreFear = slack[2].score;
-      var scoreJoy = slack[3].score;
-      var scoreSadness = slack[4].score;
+      var slack = tone.document_tone.tone_categories[0].tones
+      var scoreAnger = slack[0].score
+      var scoreDisgust = slack[1].score
+      var scoreFear = slack[2].score
+      var scoreJoy = slack[3].score
+      var scoreSadness = slack[4].score
+      //indentation intentional on postToSlack object for display purposes in Slack
       var postToSlack = {
         "username": "Harlan the Tone Analyzer",
         "attachments": [{
@@ -202,10 +202,12 @@ app.post('/post', function(req, res){
 *${slack[4].tone_name}* : ${Math.floor(scoreSadness * 100)}%`
         }]
       }
-      res.send(postToSlack);
+      res.send(postToSlack)
   });
 });
 
-module.exports = app;
+runHarlan()
 
-console.log(`Listening at http://localhost:${port}`);
+harlan.listen({token})
+
+module.exports = app
