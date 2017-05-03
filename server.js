@@ -2,14 +2,16 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const cors = require('express-cors');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const request = require('request');
 const port = (process.env.PORT || 3000);
-var slack = require('slack')
-const Slack = require('node-slackr');
+var slack = require('slack');
+
+//files
 var ToneAnalyzerV3 = require('./src/tone-analyzer');
-// const token = require('./token.js')
-// const watsonToken = require('./watsonToken')
+const channelNames = require('./src/channelNames');
+const token = require('./token.js');
+const slackHook = require('./slackHook');
 
 app.locals.testing = {};
 app.use(cors());
@@ -34,12 +36,8 @@ app.use(express.static('app'));
 app.get('/', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
 app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
 app.listen(port);
-//
-// const slackHook = new Slack('https://hooks.slack.com/services/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', {
-//   channel: "#announcements",
-//   username: "Harlan the Tone Analyzer",
-// });
-// const channel = 'C0NUUMXC1'
+
+
 // const harlan = slack.rtm.client()
 //
 // //***RTM w/Slack API for entire channel's history***//
