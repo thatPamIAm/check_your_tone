@@ -1,6 +1,2 @@
-node_modules/
 
 #do not commit real tokens
-slackHook.js
-token.js
-watsonToken.js
