@@ -37,77 +37,129 @@ app.get('/', function (req, res) { res.sendFile(path.join(__dirname, './index.ht
 app.get('/*', function (req, res) { res.sendFile(path.join(__dirname, './index.html')) });
 app.listen(port);
 
+//***RTM w/Slack API for entire channel's history***//
 
-// const harlan = slack.rtm.client()
-//
-// //***RTM w/Slack API for entire channel's history***//
-//
-// //grabs channel's history when local server starts or updates
-// harlan.listen({token})
-//
-// // RTM API has a thin wrapper for WebSocket
-// slack.channels.history({token, channel},
-//   (err, data) => {
-//     console.log(data)
-//     if (err)
-//     console.log(err);
-//     else
-//     var messages = data.messages;
-//     var grabAllText =  messages.map((key)=> {
-//       return (key.text);
-//     })
-//     const obj = makeIntoObj(grabAllText)
-//     sendToWatson(obj)
-//   })
-//
-//   //creates payload to send to Watson
-//   function makeIntoObj(allText) {
-//     var noCommas = allText.join(" ")
-//     var channelText = {
-//       "body": {
-//         "text": noCommas
-//       }
-//     }
-//     return channelText
-//   }
-//
-//   //instantiation of new object with credentials
-//   function sendToWatson(req) {
-//     var userInput = req.body.text;
-//     var tone_analyzer = new ToneAnalyzerV3(watsonToken);
-//     //call to Watson's API through tone method/request in IBM files
-//     tone_analyzer.tone({ text: userInput },
-//       function(err, tone) {
-//         //throw console log error if params not good
-//         if (err)
-//           console.log(err);
-//         else
-//         // create object from results for posting to Slack
-//         var slack = tone.document_tone.tone_categories[0].tones;
-//         var scoreAnger = slack[0].score;
-//         var scoreDisgust = slack[1].score;
-//         var scoreFear = slack[2].score;
-//         var scoreJoy = slack[3].score;
-//         var scoreSadness = slack[4].score;
-//         var postToSlack = {
-//           "username": "Harlan the Tone Analyzer",
-//           "attachments": [{
-//             "color": "#4e7fb1",
-//             "pretext": "The following is an sentiment analysis of the last 100 messages in this channel",
-//             "author_name": "Tone Analyzer",
-//             "title": "A sentiment analysis of the conversation in this channel:",
-//             "mrkdwn_in": ["text"],
-//             "text":`*${slack[0].tone_name}* : ${Math.floor(scoreAnger * 100)}%
-// *${slack[1].tone_name}* : ${Math.floor(scoreDisgust * 100)}%
-// *${slack[2].tone_name}* : ${Math.floor(scoreFear * 100)}%
-// *${slack[3].tone_name}* : ${Math.floor(scoreJoy * 100)}%
-// *${slack[4].tone_name}* : ${Math.floor(scoreSadness * 100)}%`
-//           }]
-//         }
-//         slackHook.notify(postToSlack);
-//       });
-//     }
+//create user bot and store channelName where bot is called
+var harlan = slack.rtm.client()
+let userCurrentChannel
 
+//internal check for server and initial payload
+harlan.started(function(payload) {
+var channelsPayload = payload.channels.reduce((object, channel) => {
+    object[channel.id] = channel.name
+
+    return object
+}, {})
+console.log(channelsPayload)
+  return channelsPayload
+  console.log('harlan is ready to go')
+})
+
+function runHarlan(){
+  //event listener for messages in all public slack channels
+  harlan.message(message => {
+    if (isInAChannel(message) &&
+        callsHarlan(message)) {
+      let currentChannel = message.channel
+      grabChannelName(currentChannel)
+      pullChannelHistory(token, currentChannel)
+    }
+  })
+}
+
+//check for message text of 'tone check' or 'harlan'
+function callsHarlan(message) {
+  return message.text.toLowerCase().indexOf('check your tone') > -1 ||
+     message.text.toLowerCase().indexOf('harlan') > -1;
+};
+
+//check that message is being received in public channel
+function isInAChannel(message) {
+  return typeof message.channel === 'string' &&
+      message.channel[0] === 'C';
+}
+
+//convert channelID to channelName
+function grabChannelName(id){
+  return Object.keys(channelNames).map((key) => {
+    if (key === id) {
+      var name = channelNames[key]
+      userCurrentChannel = name
+    }
+    return userCurrentChannel
+  })
+}
+
+// Pull back last 100 messages of channel to send to Watson API for analysis
+function pullChannelHistory(token, channel){
+slack.channels.history({token, channel},
+  (err, data) => {
+    if (err)
+      console.log(err);
+    else
+    var messages = data.messages;
+    var grabAllText =  messages.map((key)=> {
+      return (key.text);
+    })
+    var obj = makeIntoObj(grabAllText)
+    sendToWatson(obj)
+  })
+}
+
+//creates payload to send to Watson
+  function makeIntoObj(allText) {
+    var noCommas = allText.join(" ")
+    var channelText = {
+      "body": {
+        "text": noCommas
+      }
+    }
+    return channelText
+  }
+
+  //sends text to Watson API
+  function sendToWatson(req) {
+    var userInput = req.body.text;
+    //instantiation of a new Tone Analyzer constructor with credentials
+    var tone_analyzer = new ToneAnalyzerV3({
+    username: process.env._USERNAME,
+    password: process.env._PASSWORD,
+    version: 'v3',
+    version_date: '2016-05-19 '
+  });
+  //call to Watson's API through tone method/request in IBM files
+tone_analyzer.tone({ text: userInput },
+  function(err, tone) {
+    //throw console log error if params not good
+    if (err)
+      console.log(err);
+    else
+    // create object from results for posting to Slack
+    var slack = tone.document_tone.tone_categories[0].tones;
+    var scoreAnger = slack[0].score;
+    var scoreDisgust = slack[1].score;
+    var scoreFear = slack[2].score;
+    var scoreJoy = slack[3].score;
+    var scoreSadness = slack[4].score;
+    //indentation intentional on postToSlack object for display purposes in Slack
+    var postToSlack = {
+      "username": "Harlan the Tone Analyzer",
+      "attachments": [{
+        "color": "#4e7fb1",
+        "pretext": `Did someone mention tone? The following is a sentiment analysis for the last 100 messages in #${userCurrentChannel}!`,
+        "author_name": "Tone Analyzer",
+        "title": "For each emotion, a score of less than 50% indicates that the emotion is unlikely to be perceived in the content. Likewise, a score greater than 75% indicates high likelihood that the emotion will be perceived.",
+        "mrkdwn_in": ["text"],
+        "text":`*${slack[0].tone_name}* : ${Math.floor(scoreAnger * 100)}%
+*${slack[1].tone_name}* : ${Math.floor(scoreDisgust * 100)}%
+*${slack[2].tone_name}* : ${Math.floor(scoreFear * 100)}%
+*${slack[3].tone_name}* : ${Math.floor(scoreJoy * 100)}%
+*${slack[4].tone_name}* : ${Math.floor(scoreSadness * 100)}%`
+      }]
+    }
+    slackHook.notify(postToSlack);
+  });
+}
 
 //***Command line slash w/Slack API for analysis of submitted text***//
 
