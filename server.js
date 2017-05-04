@@ -73,7 +73,12 @@ function runHarlan(){
 
 //check for message text of 'tone check' or 'harlan'
 function callsHarlan(message) {
-  return message.text.toLowerCase().indexOf('check your tone') > -1
+  try {
+   return message.text.toLowerCase().indexOf('check your tone') > -1
+}
+catch(e) {
+   return console.log(e)//throw some type of error to the user// e is the actual error
+ }
 };
 
 //check that message is being received in public channel
