@@ -11,7 +11,7 @@ const token = process.env._BOT_TOKEN
 
 //files
 var ToneAnalyzerV3 = require('./src/tone-analyzer')
-// const channelNames = require('./src/channelNames')
+const channelNames = require('./src/channelNames')
 
 app.locals.testing = {}
 app.use(cors())
