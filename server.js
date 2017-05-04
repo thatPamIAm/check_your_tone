@@ -49,13 +49,13 @@ let userCurrentChannel
 
 //internal check for server and initial payload
 harlan.started(function(payload) {
-var channelsPayload = payload.channels.reduce((object, channel) => {
-    object[channel.id] = channel.name
-
-    return object
+// var channelsPayload = payload.channels.reduce((object, channel) => {
+//     object[channel.id] = channel.name
+//
+//     return object
 }, {})
-console.log(channelsPayload)
-  return channelsPayload
+// console.log(channelsPayload)
+//   return channelsPayload
   console.log('harlan is ready to go')
 })
 
