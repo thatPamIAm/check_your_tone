@@ -53,7 +53,7 @@ harlan.started(function(payload) {
 //     object[channel.id] = channel.name
 //
 //     return object
-}, {})
+// }, {})
 // console.log(channelsPayload)
 //   return channelsPayload
   console.log('harlan is ready to go')
