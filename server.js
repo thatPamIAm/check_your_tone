@@ -6,11 +6,12 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const port = (process.env.PORT || 3000)
 var slack = require('slack')
+const Slack = require('node-slackr');
 const token = process.env._BOT_TOKEN
 
 //files
 var ToneAnalyzerV3 = require('./src/tone-analyzer')
-const channelNames = require('./src/channelNames')
+// const channelNames = require('./src/channelNames')
 
 app.locals.testing = {}
 app.use(cors())
