@@ -48,7 +48,7 @@ var harlan = slack.rtm.client()
 let userCurrentChannel
 
 //internal check for server and initial payload
-harlan.started(function(payload) {
+// harlan.started(function(payload) {
 // var channelsPayload = payload.channels.reduce((object, channel) => {
 //     object[channel.id] = channel.name
 //
@@ -56,8 +56,8 @@ harlan.started(function(payload) {
 // }, {})
 // console.log(channelsPayload)
 //   return channelsPayload
-  console.log('harlan is ready to go')
-})
+//   console.log('harlan is ready to go')
+// })
 
 function runHarlan(){
   //event listener for messages in all public slack channels
