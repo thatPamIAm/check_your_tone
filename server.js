@@ -48,16 +48,14 @@ var harlan = slack.rtm.client()
 let userCurrentChannel
 
 //internal check for server and initial payload
-// harlan.started(function(payload) {
-// var channelsPayload = payload.channels.reduce((object, channel) => {
-//     object[channel.id] = channel.name
-//
-//     return object
-// }, {})
-// console.log(channelsPayload)
-//   return channelsPayload
-//   console.log('harlan is ready to go')
-// })
+harlan.started(function(payload) {
+var channelsPayload = payload.channels.reduce((object, channel) => {
+    object[channel.id] = channel.name
+
+    return object
+}, {})
+  return channelsPayload
+})
 
 function runHarlan(){
   //event listener for messages in all public slack channels
@@ -77,7 +75,7 @@ function callsHarlan(message) {
    return message.text.toLowerCase().indexOf('check your tone') > -1
 }
 catch(e) {
-   return console.log(e)//throw some type of error to the user// e is the actual error
+   return console.log(e)//throw error in console for verification
  }
 };
 
