@@ -7,7 +7,7 @@
 TLDR:
 This was a 2 week personal project that was built with no prior experience writing server-side JS. Check Your Tone is a slackbot that is fully deployed within the Turing school Slack Team. The slackbot allows users to submit text for tone analysis through IBM Watson's Tone Analyzer. The slackbot can also pull the last 100 messages from any Turing's public channel to analyze its overall tone.
 
-============================================================================================================
+==================================================================
 Sentiment analysis software has typically been used to monitor consumers' opinions of events, products, and services through social media and other digital outlets. In recent years, a number of companies have implemented this same technology in workplace channels in order to gauge employee morale and anticipate such things as fraud, employee turnover, and potential litigation.
 
 Since Slack serves as one the primary forms of communication for the students and staff at Turing, it makes sense (for the betterment of the community as a whole) to utilize the data available in channels to get a regular "pulse" of how the community is doing. The use of emotion analysis software within the Slack environment could not only give us a clearer view of where the community stands as a whole or in different cohorts, but could also give individuals the opportunity to help adjust the tones of certain channels or do a check of their own tone before posting or sending a message.
