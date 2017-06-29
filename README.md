@@ -1,5 +1,11 @@
 ## Check Your Tone
 
+### Slash Command Analysis for submitted text
+[![Slash Command](http://i.imgur.com/jaciHep.png)](https://youtu.be/fVvJmBXF0Dk)
+
+### Channel Analysis for last 100 messages
+[![Channel Analysis](http://i.imgur.com/lfZGdRT.png)](https://youtu.be/E5R477Gpp9A)
+
 ### Module 3 FE 2 Week Personal Project
 
 ### Project Pitch
@@ -15,11 +21,6 @@ This is important because of the phenomenon of emotional contagion. Emotional co
 
 The goal of this project is to create a slackbot (specifically utilizing the command slash API and the RTM API through slack) that would allow any user to input text for tone analysis or check the tone of an entire channel. The five emotions that would be analyzed are as follows: Anger, disgust, fear, joy, and sadness. The slackbot would give the user a breakdown of whether each emotion is likely to be perceived in the content of the submitted message.
 
-### Slash Command Analysis for submitted text
-[![Slash Command](http://i.imgur.com/jaciHep.png)](https://youtu.be/fVvJmBXF0Dk)
-
-### Channel Analysis for last 100 messages
-[![Channel Analysis](http://i.imgur.com/lfZGdRT.png)](https://youtu.be/E5R477Gpp9A)
 
 ### APIS
 

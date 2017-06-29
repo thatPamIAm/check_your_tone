@@ -3,7 +3,6 @@ const express = require('express')
 const app = express()
 const cors = require('express-cors')
 const bodyParser = require('body-parser')
-const request = require('request')
 const port = (process.env.PORT || 3000)
 var slack = require('slack')
 const Slack = require('node-slackr');
